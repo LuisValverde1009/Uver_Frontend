@@ -22,14 +22,21 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
 footer {
   background-color: #000000;
   color: #fff;
   padding: 1rem;
   text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
 
 .footer-content {
@@ -40,17 +47,18 @@ footer {
 
 .footer-left, .footer-right {
   text-align: left;
-  
 }
 
 .footer-right {
   text-align: right;
-  margin-right: 3%
+  margin-right: 3%;
 }
+
 .footer-left {
   text-align: left;
-  margin-left: 1.5%
+  margin-left: 1.5%;
 }
+
 .footer-content p {
   margin: 0;
 }

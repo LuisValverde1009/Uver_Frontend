@@ -40,8 +40,8 @@ export default {
         <button class="section-button" @click="showNotRequiredMessage">Empezar a Conducir</button>
       </div>
       </div>
-      <FooterComponent />
     </div>
+    <FooterComponent />
   </template>
 
 
@@ -73,7 +73,7 @@ export default {
 .section-image {
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem;
+  
 }
 
 .section-button {

@@ -16,10 +16,14 @@ export default {
   <div id="home">
     <HeaderComponent />
     <div class="container">
+
       <div id="escoger-destino">
+
         <input type="text" placeholder="Buscar destino" class="search-bar" />
         <button class="search-button">Buscar viaje</button>
+        
       </div>
+
     </div>
     <FooterComponent />
   </div>
