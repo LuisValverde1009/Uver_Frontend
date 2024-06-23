@@ -91,8 +91,8 @@ export default {
     },
     handleLocationError(browserHasGeolocation) {
       const errorMessage = browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.';
+        'Error: El servicio de geolocalización ha fallado.' :
+        'Error: Tu navegador no soporta la geolocalización.';
       console.error(errorMessage);
       this.output = `<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> ${errorMessage}</div>`;
     },
@@ -106,12 +106,12 @@ export default {
 
       this.directionsService.route(request, (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
-          this.output = `<div class='alert-info'>From: Current Location.<br />To: ${this.to}.<br /> Driving distance <i class='fas fa-road'></i> : ${result.routes[0].legs[0].distance.text}.<br />Duration <i class='fas fa-hourglass-start'></i> : ${result.routes[0].legs[0].duration.text}.</div>`;
+          this.output = `<div class='alert-info'>Desde: Ubicación actual.<br />Hasta: ${this.to}.<br /> Distancia de Conducción <i class='fas fa-road'></i> : ${result.routes[0].legs[0].distance.text}.<br />Duración del viaje <i class='fas fa-hourglass-start'></i> : ${result.routes[0].legs[0].duration.text}.</div>`;
           this.directionsDisplay.setDirections(result);
         } else {
           this.directionsDisplay.setDirections({ routes: [] });
           this.map.setCenter(this.currentLocation);
-          this.output = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
+          this.output = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i>No se encontraron resultados.</div>";
         }
       });
     }
