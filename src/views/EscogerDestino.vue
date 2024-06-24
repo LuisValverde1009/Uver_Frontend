@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios';
 import HeaderComponent from '@/components/Header.vue';
 import FooterComponent from '@/components/Footer.vue';
 export default {
@@ -108,6 +109,23 @@ export default {
         if (status === window.google.maps.DirectionsStatus.OK) {
           this.output = `<div class='alert-info'>Desde: Ubicación actual.<br />Hasta: ${this.to}.<br /> Distancia de Conducción <i class='fas fa-road'></i> : ${result.routes[0].legs[0].distance.text}.<br />Duración del viaje <i class='fas fa-hourglass-start'></i> : ${result.routes[0].legs[0].duration.text}.</div>`;
           this.directionsDisplay.setDirections(result);
+          //Para conectar con backend
+          const viajeData = {
+            lugarDePartida: this.from,
+            destino: this.to,
+            duracion: result.routes[0].legs[0].duration.text,
+            distancia: result.routes[0].legs[0].distance.text
+          };
+
+          axios.post('http://localhost:8000/api/viajes', viajeData)
+            .then(response => {
+              console.log('Viaje guardado exitosamente:', response.data);
+              
+            })
+            .catch(error => {
+              console.error('Hubo un error al guardar el viaje:', error);
+              
+            });
         } else {
           this.directionsDisplay.setDirections({ routes: [] });
           this.map.setCenter(this.currentLocation);
