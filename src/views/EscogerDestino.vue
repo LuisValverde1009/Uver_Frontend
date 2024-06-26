@@ -186,7 +186,6 @@ export default {
   gap: 10px;
   
 }
-<style scoped>
   body {
     color: #5bc0de;
     font-family: "Poppins", sans-serif;
