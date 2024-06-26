@@ -18,7 +18,8 @@ export default {
       directionsDisplay: null,
       currentLocation: { lat: null, lng: null },
       marker: null,
-      autocomplete: null
+      autocomplete: null,
+      dataLoaded: false
     };
   },
   mounted() {
@@ -91,6 +92,7 @@ export default {
       }
     },
     handleLocationError(browserHasGeolocation) {
+      this.dataLoaded = true; 
       const errorMessage = browserHasGeolocation ?
         'Error: El servicio de geolocalización ha fallado.' :
         'Error: Tu navegador no soporta la geolocalización.';
@@ -107,7 +109,8 @@ export default {
 
       this.directionsService.route(request, (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
-          this.output = `<div class='alert-info'>Desde: Ubicación actual.<br />Hasta: ${this.to}.<br /> Distancia de Conducción <i class='fas fa-road'></i> : ${result.routes[0].legs[0].distance.text}.<br />Duración del viaje <i class='fas fa-hourglass-start'></i> : ${result.routes[0].legs[0].duration.text}.</div>`;
+          this.dataLoaded = true; 
+          this.output = `<div class='alert-info'>Dirección: ${this.to}.<br /> Distancia de Conducción <i class='fas fa-road'></i> : ${result.routes[0].legs[0].distance.text}<br />Duración del viaje <i class='fas fa-hourglass-start'></i> : ${result.routes[0].legs[0].duration.text}</div>`;
           this.directionsDisplay.setDirections(result);
           //Para conectar con backend
           const viajeData = {
@@ -127,6 +130,7 @@ export default {
               
             });
         } else {
+          this.dataLoaded = true; 
           this.directionsDisplay.setDirections({ routes: [] });
           this.map.setCenter(this.currentLocation);
           this.output = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i>No se encontraron resultados.</div>";
@@ -143,7 +147,7 @@ export default {
     <div class="container">
       <div id="escoger-destino">
         <div class="container-main">
-      <div class="container-fluid">
+      <div class="container-fluid-form">
         <form class="form-horizontal">
           <div class="form-group">
             <label for="from" class="col-xs-2 control-label"><i class="far fa-dot-circle"></i></label>
@@ -162,9 +166,9 @@ export default {
           <button class="btn btn-info btn-lg" @click="calcRoute"><i class="fas fa-map-signs"></i>Buscar Viaje</button>
         </div>
       </div>
-      <div class="container-fluid">
+      <div class="container-fluid-map">
         <div id="googleMap" ref="googleMap"></div>
-        <div id="output" v-html="output"></div>
+        <div id="output" v-html="output" v-bind:class="{ 'output-loaded': dataLoaded }"></div>
       </div>
     </div>
       </div>
@@ -182,7 +186,6 @@ export default {
   gap: 10px;
   
 }
-<style scoped>
   body {
     color: #5bc0de;
     font-family: "Poppins", sans-serif;
@@ -192,7 +195,10 @@ export default {
   .fa-dot-circle {
     color: #5bc0de;
   }
-  
+
+  #from {
+  color: gray;
+}
   .container-main {
     background-color: transparent;
     margin: 0;
@@ -204,20 +210,20 @@ export default {
   .container-main p {
     text-align: center;
   }
-  
-  /*map*/
+
+  .container-fluid-map {
+    display: flex;
+    flex-direction: column;
+    
+  }
   #googleMap {
-    width: 80%;
-    height: 400px;
-    margin: 10px auto;
-  }
-  
-  #output {
-    text-align: center;
-    font-size: 2em;
-    margin: 20px auto;
-  }
-  
+  width: 150%;           
+  height: 400px;        
+  position: relative;   
+  left: 50%;            
+  transform: translateX(-50%); 
+  margin: 10px 0;      
+}
   #mode {
     color: black;
   }
@@ -249,5 +255,17 @@ export default {
   border-radius: 4px;
   margin-bottom: 20px;
 }
-  </style>
+.output-loaded {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: bold; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+}
+</style>
 
