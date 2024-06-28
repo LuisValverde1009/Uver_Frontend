@@ -104,7 +104,7 @@ export default {
         origin: this.from,
         destination: this.to,
         travelMode: window.google.maps.TravelMode.DRIVING,
-        unitSystem: window.google.maps.UnitSystem.IMPERIAL
+        unitSystem: window.google.maps.UnitSystem.METRIC
       };
 
       this.directionsService.route(request, (result, status) => {
